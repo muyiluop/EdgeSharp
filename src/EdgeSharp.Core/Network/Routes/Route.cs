@@ -164,10 +164,17 @@ namespace EdgeSharp.Core.Network
             var json = _dataTransfers.ConvertRequestToJson(content);
 
             var jsonDocumentOptions = _dataTransfers.SerializerOptions.DocumentOptions();
+
             using (JsonDocument jsonDocument = JsonDocument.Parse(json, jsonDocumentOptions))
             {
+                if (RouteArguments.Count == 1)
+                {
+                    _routeArguments[0] = _actionParameterBinder.Bind(RouteArguments[0].PropertyName, RouteArguments[0].Type, jsonDocument.RootElement);
+                    return;
+                }
                 foreach (JsonProperty element in jsonDocument.RootElement.EnumerateObject())
                 {
+
                     if (_propertyNameArgumentMap.ContainsKey(element.Name))
                     {
                         var argument = _propertyNameArgumentMap[element.Name];
