@@ -21,9 +21,8 @@ jobs:
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: ls -lh
-      - run: cd src
-      - run: dotnet build --configuration Release
+      - run: dotnet build ./src/EdgeSharp.sln --configuration Release
       - name: Create the package
-        run: dotnet pack --configuration Release
+        run: dotnet pack ./src/EdgeSharp.sln --configuration Release
       - name: Publish the package to GPR
-        run: dotnet nuget push bin/Release/*.nupkg
+        run: dotnet nuget push ./src/bin/Release/*.nupkg
