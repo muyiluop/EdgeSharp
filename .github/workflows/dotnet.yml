@@ -20,8 +20,10 @@ jobs:
           source-url: https://nuget.pkg.github.com/<owner>/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-      - run: ls -lh
-      - run: dotnet build ./src/EdgeSharp.sln --configuration Release
+      - run: pwd
+      - run: |
+          cd src
+          dotnet build --configuration Release
       - name: Create the package
         run: dotnet pack ./src/EdgeSharp.sln --configuration Release
       - name: Publish the package to GPR
