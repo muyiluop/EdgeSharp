@@ -20,6 +20,7 @@ jobs:
           source-url: https://nuget.pkg.github.com/<owner>/index.json
         env:
           NUGET_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: cd src
       - run: dotnet build --configuration Release src
       - name: Create the package
         run: dotnet pack --configuration Release src
