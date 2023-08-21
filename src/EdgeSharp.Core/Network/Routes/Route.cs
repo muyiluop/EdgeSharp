@@ -39,8 +39,9 @@ namespace EdgeSharp.Core.Network
         public IList<RouteArgument> RouteArguments { get; set; }
         public bool IsAsync { get; set; }
         public bool HasReturnValue { get; set; }
- 
+
         #region Invokes
+
         public IActionResponse Invoke(IActionRequest request)
         {
             if (Delegate == null)
@@ -52,7 +53,7 @@ namespace EdgeSharp.Core.Network
             }
 
             SetRouteArguments(request);
-            _routeArguments = _routeArguments ?? new object[] {};
+            _routeArguments ??= new object[] { };
             object content = Invoke(_routeArguments.Length, _routeArguments);
 
             return CreateResponse(content);
@@ -70,7 +71,7 @@ namespace EdgeSharp.Core.Network
             }
         }
 
-        #endregion
+        #endregion Invokes
 
         #region Helper Methods
 
@@ -133,9 +134,9 @@ namespace EdgeSharp.Core.Network
             ValidateRequest(request);
 
             int argumentsCount = 0;
-            _propertyNameArgumentMap = null ;
+            _propertyNameArgumentMap = null;
             _routeArguments = SetArgumentDefaultValues(out argumentsCount, out _propertyNameArgumentMap);
- 
+
             if (argumentsCount == 0)
             {
                 return;
@@ -174,7 +175,6 @@ namespace EdgeSharp.Core.Network
                 }
                 foreach (JsonProperty element in jsonDocument.RootElement.EnumerateObject())
                 {
-
                     if (_propertyNameArgumentMap.ContainsKey(element.Name))
                     {
                         var argument = _propertyNameArgumentMap[element.Name];
@@ -250,9 +250,9 @@ namespace EdgeSharp.Core.Network
             return args;
         }
 
-        #endregion
+        #endregion Helper Methods
 
-        #region Local Invokes 
+        #region Local Invokes
 
         private object Invoke(int argumentCount, params object[] args)
         {
@@ -324,6 +324,6 @@ namespace EdgeSharp.Core.Network
             return null;
         }
 
-        #endregion
+        #endregion Local Invokes
     }
 }

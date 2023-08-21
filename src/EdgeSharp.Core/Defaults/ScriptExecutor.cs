@@ -51,6 +51,7 @@ namespace EdgeSharp.Core.Defaults
                 }
                 catch (Exception exception)
                 {
+                    var script = ResponseScript(request.RequestId, null, true);
                     Logger.Instance.Log.LogError(exception);
                 }
             }

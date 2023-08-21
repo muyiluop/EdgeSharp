@@ -8,6 +8,7 @@ using EdgeSharp.Core.Network;
 using Microsoft.Web.WebView2.Core;
 using Microsoft.Web.WebView2.Wpf;
 using System;
+using System.Linq;
 
 namespace EdgeSharp.Wpf
 {
@@ -27,7 +28,7 @@ namespace EdgeSharp.Wpf
         public new Uri Source
         {
             get { return base.Source; }
-            set 
+            set
             {
                 base.Source = value;
                 var statrtUrl = base.Source?.AbsoluteUri;
@@ -74,7 +75,13 @@ namespace EdgeSharp.Wpf
                 _config.RuntimeVersion = CoreWebView2.Environment.BrowserVersionString;
 
                 CoreWebView2.AddWebResourceRequestedFilter(creationOption.UriFilter, creationOption.ResourceContext);
+                //
 
+                var vh = _config.UrlSchemes.Where(x => x.SchemeType == UrlSchemeType.HostToFolder).Last();
+                if (vh != null)
+                {
+                    CoreWebView2.SetVirtualHostNameToFolderMapping(vh.Scheme, vh.Folder, CoreWebView2HostResourceAccessKind.Allow);
+                }
                 CoreWebView2.WebMessageReceived += new EventHandler<CoreWebView2WebMessageReceivedEventArgs>(BrowserWindow_WebMessageReceived);
                 CoreWebView2.WebResourceRequested += new EventHandler<CoreWebView2WebResourceRequestedEventArgs>(BrowserWindow_WebResourceRequested);
             }
@@ -146,6 +153,7 @@ namespace EdgeSharp.Wpf
         }
 
         #region Bootstrap
+
         protected virtual void Bootstrap()
         {
         }
@@ -153,6 +161,7 @@ namespace EdgeSharp.Wpf
         #endregion Bootstrap
 
         #region Creation Options
+
         private string BrowserExecutableFolder
         {
             get
@@ -179,7 +188,7 @@ namespace EdgeSharp.Wpf
             }
         }
 
-        #endregion
+        #endregion Creation Options
 
         #region Dispose
 
@@ -200,6 +209,6 @@ namespace EdgeSharp.Wpf
             _disposed = true;
         }
 
-        #endregion
+        #endregion Dispose
     }
 }

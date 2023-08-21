@@ -48,7 +48,6 @@ namespace EdgeSharp.Core.Defaults
             {
                 return _errorHandler.HandleRouteNotFound(request.RoutePath);
             }
-
             return ExecuteRoute(route, request);
         }
 

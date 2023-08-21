@@ -85,6 +85,7 @@ namespace EdgeSharp.Core.Network
         }
 
         private static readonly Type VoidType = typeof(void);
+
         private Route CreateDelegate(object instance, MethodInfo method, IActionParameterBinder actionParameterBinder, IDataTransferOptions dataTransferOptions)
         {
             var args = method
@@ -117,7 +118,7 @@ namespace EdgeSharp.Core.Network
                 hasReturn = false;
             }
 
-            return new Route(method.Name, newDel, arguments, actionParameterBinder, dataTransferOptions,isAsync, hasReturn);
+            return new Route(method.Name, newDel, arguments, actionParameterBinder, dataTransferOptions, isAsync, hasReturn);
         }
     }
 }
